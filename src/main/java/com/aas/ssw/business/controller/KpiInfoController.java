@@ -45,6 +45,7 @@ public class KpiInfoController {
         try {
             Future<KpiInfo> kpiInfoFuture = kpiInfoService.selectKpiInfoByIdAsync(id);
             KpiInfo kpiInfo = kpiInfoService.selectKpiInfoById(id);
+            LOGGER.info("查询成功");
             return Result.getInfo(Constant.SUCCESS, "查询成功", kpiInfoFuture.get(),null);
         } catch (Exception e) {
             LOGGER.error("查询数据出错", e);
