@@ -31,10 +31,10 @@ public class KpiInfoController {
             kpiInfo.setLevel("0");
             kpiInfo.setTarget(0.5);
             kpiInfoService.insertKpiInfo(kpiInfo);
-            return Result.getInfo(Constant.SUCCESS, "插入成功", null);
+            return Result.getInfo(Constant.SUCCESS, "插入成功", null,null);
         } catch (Exception e) {
             LOGGER.error("插入数据出错", e);
-            return Result.getInfo(Constant.ERROR, "插入失败", null);
+            return Result.getInfo(Constant.ERROR, "插入失败", null,null);
         }
     }
 }

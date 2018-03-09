@@ -26,14 +26,19 @@ public class Result<T> implements Serializable{
      * 前台需要的数据
      */
     private T data;
+    /**
+     * 数据总量，前台分页用
+     */
+    private Integer total;
 
 
 
-    public static <T> Result getInfo(String flag, String msg, T data){
+    public static <T> Result getInfo(String flag, String msg, T data, Integer total){
         Result result = new Result();
         result.setFlag(flag);
         result.setMsg(msg);
         result.setData(data);
+        result.setTotal(total);
         return result;
     }
 
