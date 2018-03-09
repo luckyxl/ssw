@@ -34,7 +34,16 @@
         </javaClientGenerator>
 
         <!--业务类例子 -->
-        <table tableName="kpi_info" domainObjectName="KpiInfo">
+        <table tableName="kpi_info" domainObjectName="KpiInfo"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+        >
             <property name="useActualColumnNames" value="true"/>
         </table>
     </context>
