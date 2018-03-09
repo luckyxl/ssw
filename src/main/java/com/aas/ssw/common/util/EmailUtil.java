@@ -41,7 +41,7 @@ public class EmailUtil {
      * @param inlineResources 内嵌图片,key：模板中的id,value:图片路径
      * @param templatePath 模板文件路径
      * @param templateParams 模板中的参数
-     * @return
+     * @return 是否发送成功, 1:成功;-1:失败
      */
     public static String sendEmail(String[] to, String[] cc, String subject, String[] attachmentsPath, Map<String,String> inlineResources, String templatePath, Map<String,String> templateParams){
         MimeMessage message = mailSender.createMimeMessage();
