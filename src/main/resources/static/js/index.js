@@ -16,3 +16,16 @@ function insertKpi(id, name) {
         }
     });
 }
+function selectKpi(id) {
+    $.ajax({
+        type: "GET",
+        url: contextPath + "kpiInfo/selectKpiInfo",
+        data: {id: id},
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (result) {
+            console.log(result);
+        }
+    });
+}

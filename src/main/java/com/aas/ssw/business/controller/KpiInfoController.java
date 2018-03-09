@@ -7,11 +7,13 @@ import com.aas.ssw.common.component.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.concurrent.Future;
 
 /**
  * @author xl
@@ -35,6 +37,18 @@ public class KpiInfoController {
         } catch (Exception e) {
             LOGGER.error("插入数据出错", e);
             return Result.getInfo(Constant.ERROR, "插入失败", null,null);
+        }
+    }
+    @GetMapping("/selectKpiInfo")
+    @ResponseBody
+    public Result selectKpiInfo(Integer id) {
+        try {
+            Future<KpiInfo> kpiInfoFuture = kpiInfoService.selectKpiInfoByIdAsync(id);
+            KpiInfo kpiInfo = kpiInfoService.selectKpiInfoById(id);
+            return Result.getInfo(Constant.SUCCESS, "查询成功", kpiInfoFuture.get(),null);
+        } catch (Exception e) {
+            LOGGER.error("查询数据出错", e);
+            return Result.getInfo(Constant.ERROR, "查询失败", null,null);
         }
     }
 }
