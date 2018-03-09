@@ -4,6 +4,7 @@ import com.aas.ssw.business.Service.KpiInfoService;
 import com.aas.ssw.business.entity.KpiInfo;
 import com.aas.ssw.common.component.Constant;
 import com.aas.ssw.common.component.Result;
+import com.aas.ssw.common.util.ThreadExecutorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 /**
  * @author xl
@@ -44,7 +47,9 @@ public class KpiInfoController {
     public Result selectKpiInfo(Integer id) {
         try {
             Future<KpiInfo> kpiInfoFuture = kpiInfoService.selectKpiInfoByIdAsync(id);
-            KpiInfo kpiInfo = kpiInfoService.selectKpiInfoById(id);
+            kpiInfoService.selectKpiInfoById(id);
+            FutureTask<KpiInfo> futureTask = new FutureTask<>(() -> kpiInfoService.selectKpiInfoByIdAsync2(id));
+            ThreadExecutorUtil.concurrentExcute(new FutureTask[]{futureTask},new String[]{"task1"});
             LOGGER.info("查询成功");
             return Result.getInfo(Constant.SUCCESS, "查询成功", kpiInfoFuture.get(),null);
         } catch (Exception e) {

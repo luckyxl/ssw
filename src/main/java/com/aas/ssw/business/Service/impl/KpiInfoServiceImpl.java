@@ -42,4 +42,10 @@ public class KpiInfoServiceImpl implements KpiInfoService{
         LOGGER.info("这是同步查询");
         return kpiInfoDao.selectByPrimaryKey(id);
     }
+
+    @Override
+    public KpiInfo selectKpiInfoByIdAsync2(Integer id) {
+        LOGGER.info("如果使用线程池执行这个方法，那么这就是异步查询");
+        return kpiInfoDao.selectByPrimaryKey(id);
+    }
 }

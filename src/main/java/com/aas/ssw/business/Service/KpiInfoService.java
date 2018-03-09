@@ -14,4 +14,6 @@ public interface KpiInfoService {
     Future<KpiInfo> selectKpiInfoByIdAsync(Integer id);
 
     KpiInfo selectKpiInfoById(Integer id);
+
+    KpiInfo selectKpiInfoByIdAsync2(Integer id);
 }
