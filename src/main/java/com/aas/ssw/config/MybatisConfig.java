@@ -41,7 +41,7 @@ public class MybatisConfig {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
             //设置xml扫描路径
-            bean.setMapperLocations(resolver.getResources("classpath:mybatis/mappers/**/*Mapper.xml"));
+            bean.setMapperLocations(resolver.getResources("classpath:mybatis/mappers/**/*Dao.xml"));
             bean.setConfigLocation(resolver.getResource("classpath:mybatis/sqlMapConfig.xml"));
             return bean.getObject();
         } catch (Exception e) {
