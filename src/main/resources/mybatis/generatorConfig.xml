@@ -34,7 +34,7 @@
         </javaClientGenerator>
 
         <!--业务类例子 -->
-        <table tableName="kpi_info" domainObjectName="KpiInfo"
+        <table tableName="kpi_info" domainObjectName="KpiInfo" mapperName="KpiInfoDao"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableSelectByPrimaryKey="true"
