@@ -1,5 +1,8 @@
 package com.aas.ssw.business.entity;
 
+/**
+ * @author xl
+ */
 public class KpiInfo {
     /**
      *
