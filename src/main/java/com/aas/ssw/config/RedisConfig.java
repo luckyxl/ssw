@@ -23,6 +23,7 @@ import java.util.Set;
 
 @Configuration
 @EnableCaching
+@ConditionalOnProperty(name = "redis.enabled")
 public class RedisConfig extends CachingConfigurerSupport{
     private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
 
