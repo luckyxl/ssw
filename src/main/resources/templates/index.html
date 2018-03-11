@@ -7,8 +7,6 @@
 <body>
 <a th:href="@{/(lang=zh_CN)}">中文</a>
 <a th:href="@{/(lang=en_US)}">英文</a>
-<a onclick="insertKpi(999999,'ssw2')">存储</a>
-<a onclick="selectKpi(10)">查询</a>
 <div th:replace="fragment/contextPath :: contextPath"></div>
 <script src="../static/frame/jQuery/jquery-1.10.1.min.js" th:src="@{/frame/jQuery/jquery-1.10.1.min.js}"></script>
 <div th:replace="fragment/i18nResource :: i18nProperties"></div>
