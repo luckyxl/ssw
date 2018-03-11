@@ -36,10 +36,10 @@ public class KpiInfoController {
             kpiInfo.setLevel("0");
             kpiInfo.setTarget(0.5);
             kpiInfoService.insertKpiInfo(kpiInfo);
-            return Result.getInfo(Constant.SUCCESS, "插入成功", null,null);
+            return Result.getResult(Constant.SUCCESS, "插入成功", null,null);
         } catch (Exception e) {
             LOGGER.error("插入数据出错", e);
-            return Result.getInfo(Constant.ERROR, "插入失败", null,null);
+            return Result.getResult(Constant.ERROR, "插入失败", null,null);
         }
     }
     @GetMapping("/selectKpiInfo")
@@ -51,10 +51,10 @@ public class KpiInfoController {
             FutureTask<KpiInfo> futureTask = new FutureTask<>(() -> kpiInfoService.selectKpiInfoByIdAsync2(id));
             ThreadExecutorUtil.concurrentExcute(new FutureTask[]{futureTask},new String[]{"task1"});
             LOGGER.info("查询成功");
-            return Result.getInfo(Constant.SUCCESS, "查询成功", kpiInfoFuture.get(),null);
+            return Result.getResult(Constant.SUCCESS, "查询成功", kpiInfoFuture.get(),null);
         } catch (Exception e) {
             LOGGER.error("查询数据出错", e);
-            return Result.getInfo(Constant.ERROR, "查询失败", null,null);
+            return Result.getResult(Constant.ERROR, "查询失败", null,null);
         }
     }
 }

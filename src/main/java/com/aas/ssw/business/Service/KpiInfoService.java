@@ -16,4 +16,10 @@ public interface KpiInfoService {
     KpiInfo selectKpiInfoById(Integer id);
 
     KpiInfo selectKpiInfoByIdAsync2(Integer id);
+
+    KpiInfo getById(Integer id);
+
+    KpiInfo updateById(KpiInfo kpiInfo);
+
+    void logicDeleteById(Integer id);
 }

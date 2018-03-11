@@ -33,7 +33,7 @@ public class Result<T> implements Serializable{
 
 
 
-    public static <T> Result getInfo(String flag, String msg, T data, Integer total){
+    public static <T> Result getResult(String flag, String msg, T data, Integer total){
         Result result = new Result();
         result.setFlag(flag);
         result.setMsg(msg);
