@@ -89,11 +89,13 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>-->
+		<!--fastdfs-->
 		<dependency>
 			<groupId>com.github.tobato</groupId>
 			<artifactId>fastdfs-client</artifactId>
 			<version>1.25.4-RELEASE</version>
 		</dependency>
+		<!--lombok-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -125,6 +127,23 @@
 			<groupId>ognl</groupId>
 			<artifactId>ognl</artifactId>
 			<version>3.0.8</version>
+		</dependency>
+		<!--quartz-->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.3.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>5.0.4.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
