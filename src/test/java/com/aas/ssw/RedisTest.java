@@ -1,6 +1,6 @@
 package com.aas.ssw;
 
-import com.aas.ssw.business.Service.KpiInfoService;
+import com.aas.ssw.business.service.KpiInfoService;
 import com.aas.ssw.business.entity.KpiInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
