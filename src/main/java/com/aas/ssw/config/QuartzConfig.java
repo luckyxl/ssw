@@ -1,6 +1,6 @@
 package com.aas.ssw.config;
 
-import com.aas.ssw.business.entity.QuartzJob;
+import com.aas.ssw.common.component.QuartzJob;
 import org.quartz.Trigger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

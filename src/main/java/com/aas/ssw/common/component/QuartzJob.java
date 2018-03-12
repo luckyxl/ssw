@@ -1,7 +1,8 @@
-package com.aas.ssw.business.entity;
+package com.aas.ssw.common.component;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**job,测试用
@@ -13,6 +14,7 @@ public class QuartzJob {
     public void sayHello(){
         LOGGER.info("hello world!");
     }
+    @Scheduled(cron = "*/3 * * * * ?")
     public void sayHi(){
         LOGGER.info("hi world!");
     }

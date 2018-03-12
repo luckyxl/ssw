@@ -1,4 +1,4 @@
-package com.aas.ssw.business.entity;
+package com.aas.ssw.common.component;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import lombok.Data;
