@@ -1,4 +1,4 @@
-package com.aas.ssw.business.dao;
+package com.aas.ssw.business.dao.one;
 
 import com.aas.ssw.business.entity.KpiInfo;
 

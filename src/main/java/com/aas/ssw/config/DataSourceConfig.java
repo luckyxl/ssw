@@ -15,6 +15,7 @@ import java.sql.SQLException;
  * @date 2017/8/14
  */
 @Configuration
+@ConditionalOnExpression("!'${spring.jta.enabled}'")
 public class DataSourceConfig {
 
     @Value("${spring.datasource.url:''}")
