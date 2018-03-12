@@ -41,7 +41,7 @@ public class QuartzUtil implements ApplicationContextAware{
                 LOGGER.warn("job为null！");
                 return Constant.FAIL;
             }
-            if(scheduler.getJobDetail(JobKey.jobKey(job.getJobName(), job.getJobGroup())) == null){
+            if(scheduler.getJobDetail(JobKey.jobKey(job.getJobName(), job.getJobGroup())) != null){
                 LOGGER.warn("不能添加定时任务，因为jobName："+ job.getJobName() + ",jobGroupName:" + job.getJobGroup() +"已经存在");
                 return Constant.FAIL;
             }
@@ -97,6 +97,11 @@ public class QuartzUtil implements ApplicationContextAware{
      */
     public static String modifyJobTime(ScheduleJob job) {
         try {
+            JobDetail jobDetail = scheduler.getJobDetail(JobKey.jobKey(job.getJobName(), job.getJobGroup()));
+            if(jobDetail == null){
+                LOGGER.warn("不能修改定时任务，因为jobName：" + job.getJobName() + ",jobGroupName:" + job.getJobGroup() + "不存在！");
+                return Constant.FAIL;
+            }
             TriggerKey triggerKey = TriggerKey.triggerKey(job.getTriggerName(), job.getTriggerGroup());
             CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
             if (trigger == null) {

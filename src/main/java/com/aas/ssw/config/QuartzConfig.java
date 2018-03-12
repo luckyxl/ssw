@@ -54,6 +54,7 @@ public class QuartzConfig {
         tigger.setCronExpression("59 59 23 L 12 ? *");
         // trigger的name
         tigger.setName("ssw");
+        tigger.setGroup("ssw");
         return tigger;
     }
 
