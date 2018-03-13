@@ -14,8 +14,11 @@ public class QuartzJob {
     public void sayHello(){
         LOGGER.info("hello world!");
     }
-    @Scheduled(cron = "*/3 * * * * ?")
     public void sayHi(){
         LOGGER.info("hi world!");
+    }
+    @Scheduled(cron = "*/3 * * * * ?")
+    public void sayNiHao(){
+        LOGGER.info("world, nihao");
     }
 }

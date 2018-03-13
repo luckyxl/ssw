@@ -40,28 +40,39 @@ public class QuartzTest {
         while(true){}
     }
     @Test
-    public void updateJobTest(){
-        ScheduleJob job = new ScheduleJob();
-        job.setJobName("ssw");
-        job.setJobGroup("ssw");
-        job.setCronExpression("*/3 * * * * ?");
-        job.setTriggerName("ssw");
-        job.setTriggerGroup("ssw");
-        job.setIsSpringBean("1");
-        job.setTargetObject("quartzJob");
-        job.setTargetMethod("sayHello");
-        job.setConcurrent("0");
-        QuartzUtil.modifyJobTime(job);
-        while(true){}
-    }
-    @Test
-    public void removeJobTest(){
+    public void updateJobTest() throws InterruptedException {
         ScheduleJob job = new ScheduleJob();
         job.setJobName("ssww");
         job.setJobGroup("ssww");
+        job.setCronExpression("*/10 * * * * ?");
         job.setTriggerName("ssww");
         job.setTriggerGroup("ssww");
+        job.setIsSpringBean("1");
+        job.setTargetObject("quartzJob");
+        job.setTargetMethod("sayHi");
+        job.setConcurrent("0");
+        QuartzUtil.addJob(job);
+        Thread.sleep(20*1000);
+        job.setCronExpression("*/1 * * * * ?");
+        QuartzUtil.modifyJobTime(job);
+        Thread.sleep(15*1000);
+    }
+    @Test
+    public void removeJobTest() throws InterruptedException {
+        ScheduleJob job = new ScheduleJob();
+        job.setJobName("ssww");
+        job.setJobGroup("ssww");
+        job.setCronExpression("*/2 * * * * ?");
+        job.setTriggerName("ssww");
+        job.setTriggerGroup("ssww");
+        job.setIsSpringBean("1");
+        job.setTargetObject("quartzJob");
+        job.setTargetMethod("sayHi");
+        job.setConcurrent("0");
+        QuartzUtil.addJob(job);
+        Thread.sleep(20*1000);
         QuartzUtil.removeJob(job);
+        Thread.sleep(10*1000);
     }
 
 
