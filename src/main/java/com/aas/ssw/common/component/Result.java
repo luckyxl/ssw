@@ -4,13 +4,14 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**该类用于封装后台方法执行后的返回结果信息
+/**
+ * 该类用于封装后台方法执行后的返回结果信息
  *
  * @author xl
  * @date 2017/8/16
  */
 @Data
-public class Result<T> implements Serializable{
+public class Result<T> implements Serializable {
 
 
     private static final long serialVersionUID = 937954638527393958L;
@@ -32,8 +33,7 @@ public class Result<T> implements Serializable{
     private Integer total;
 
 
-
-    public static <T> Result getResult(String flag, String msg, T data, Integer total){
+    public static <T> Result getResult(String flag, String msg, T data, Integer total) {
         Result result = new Result();
         result.setFlag(flag);
         result.setMsg(msg);
@@ -41,10 +41,6 @@ public class Result<T> implements Serializable{
         result.setTotal(total);
         return result;
     }
-
-
-
-
 
 
 }

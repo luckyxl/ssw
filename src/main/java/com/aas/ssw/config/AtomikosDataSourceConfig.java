@@ -13,14 +13,13 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 /**
- *
  * @author xl
  * @date 2017/8/14
  */
 @Configuration
 @ConditionalOnProperty(name = "spring.jta.enabled")
 public class AtomikosDataSourceConfig {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomikosDataSourceConfig.class);
 
     @Value("${spring.datasource.initial-size}")
@@ -120,7 +119,7 @@ public class AtomikosDataSourceConfig {
             LOGGER.error("druid configuration initialization filter", e);
         }
         datasource.setConnectionProperties(connectionPropertiesOne);
-        AtomikosDataSourceBean atomikosDataSource=new AtomikosDataSourceBean();
+        AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean();
         atomikosDataSource.setUniqueResourceName("dataSourceOne");
         atomikosDataSource.setXaDataSource(datasource);
         atomikosDataSource.setMinPoolSize(5);
@@ -128,6 +127,7 @@ public class AtomikosDataSourceConfig {
 //        atomikosDataSource.setTestQuery("SELECT 1");
         return atomikosDataSource;
     }
+
     @Bean(name = "dataSourceTwo")     //声明其为Bean实例
     public DataSource twoDataSource() {
         DruidXADataSource datasource = new DruidXADataSource();
@@ -154,7 +154,7 @@ public class AtomikosDataSourceConfig {
             LOGGER.error("druid configuration initialization filter", e);
         }
         datasource.setConnectionProperties(connectionPropertiesTwo);
-        AtomikosDataSourceBean atomikosDataSource=new AtomikosDataSourceBean();
+        AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean();
         atomikosDataSource.setUniqueResourceName("dataSourceTwo");
         atomikosDataSource.setXaDataSource(datasource);
         atomikosDataSource.setMinPoolSize(5);

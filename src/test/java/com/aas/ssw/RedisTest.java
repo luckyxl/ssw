@@ -1,7 +1,7 @@
 package com.aas.ssw;
 
-import com.aas.ssw.business.service.KpiInfoService;
 import com.aas.ssw.business.entity.KpiInfo;
+import com.aas.ssw.business.service.KpiInfoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-@SpringBootTest(classes = SswApplication.class,webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = SswApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class RedisTest {
 
     @Resource
@@ -20,19 +20,21 @@ public class RedisTest {
 
 
     @Test
-    public void cacheableTest(){
+    public void cacheableTest() {
         KpiInfo kpiInfo = kpiInfoService.getById(10);
         System.out.println("owner:" + kpiInfo.getOwner());
     }
+
     @Test
-    public void cachePutTest(){
+    public void cachePutTest() {
         KpiInfo kpiInfo = new KpiInfo();
         kpiInfo.setId(10);
         kpiInfo.setOwner("aas");
         kpiInfoService.updateById(kpiInfo);
     }
+
     @Test
-    public void cacheEvictTest(){
+    public void cacheEvictTest() {
         kpiInfoService.logicDeleteById(10);
     }
 }

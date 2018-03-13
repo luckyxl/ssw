@@ -14,7 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-@SpringBootTest(classes = SswApplication.class,webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = SswApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class AtomikosTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomikosTest.class);
@@ -33,6 +33,7 @@ public class AtomikosTest {
         kpiInfoService.insertKpiInfo(kpiInfo);
         LOGGER.info("插入成功");
     }
+
     @Test
     public void atomikosTest() {
         atomikosService.test();

@@ -1,7 +1,7 @@
 package com.aas.ssw;
 
-import com.aas.ssw.business.service.KpiInfoService;
 import com.aas.ssw.business.entity.KpiInfo;
+import com.aas.ssw.business.service.KpiInfoService;
 import com.aas.ssw.common.util.ThreadExecutorUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import java.util.concurrent.FutureTask;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-@SpringBootTest(classes = SswApplication.class,webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = SswApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class ThreadTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ThreadTest.class);
@@ -31,7 +31,7 @@ public class ThreadTest {
         Future<KpiInfo> kpiInfoFuture = kpiInfoService.selectKpiInfoByIdAsync(id);
         kpiInfoService.selectKpiInfoById(id);
         FutureTask<KpiInfo> futureTask = new FutureTask<>(() -> kpiInfoService.selectKpiInfoByIdAsync2(id));
-        ThreadExecutorUtil.concurrentExcute(new FutureTask[]{futureTask},new String[]{"task1"});
+        ThreadExecutorUtil.concurrentExcute(new FutureTask[]{futureTask}, new String[]{"task1"});
         LOGGER.info("查询成功");
     }
 }

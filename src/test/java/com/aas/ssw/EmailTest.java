@@ -12,23 +12,23 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-@SpringBootTest(classes = SswApplication.class,webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = SswApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class EmailTest {
 
     @Test
-    public void sendEmailTest(){
-        String[] to = new String[]{"jerry.xu@analyticservice.net","279474386@qq.com"};
-        String[] cc = new String[]{"279474386@qq.com","jerry.xu@analyticservice.net"};
+    public void sendEmailTest() {
+        String[] to = new String[]{"jerry.xu@analyticservice.net", "279474386@qq.com"};
+        String[] cc = new String[]{"279474386@qq.com", "jerry.xu@analyticservice.net"};
         String subject = "test";
-        String[] attachmentsPath = new String[] {"templates/error.html","templates/error.html"};
-        Map<String,String> inlineResources = new HashMap<>();
-        inlineResources.put("testImg","static/images/test.jpg");
-        inlineResources.put("testImg2","static/images/test.jpg");
+        String[] attachmentsPath = new String[]{"templates/error.html", "templates/error.html"};
+        Map<String, String> inlineResources = new HashMap<>();
+        inlineResources.put("testImg", "static/images/test.jpg");
+        inlineResources.put("testImg2", "static/images/test.jpg");
         String templatePath = "email/emailTemplate";
-        Map<String,String> templateParams = new HashMap<>();
-        templateParams.put("id","123");
-        templateParams.put("name","jason");
-        EmailUtil.sendEmail(to,cc,subject,attachmentsPath,inlineResources,templatePath,templateParams);
+        Map<String, String> templateParams = new HashMap<>();
+        templateParams.put("id", "123");
+        templateParams.put("name", "jason");
+        EmailUtil.sendEmail(to, cc, subject, attachmentsPath, inlineResources, templatePath, templateParams);
         System.out.println("发送成功！");
     }
 }

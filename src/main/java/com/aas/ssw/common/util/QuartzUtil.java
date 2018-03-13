@@ -4,7 +4,6 @@ import com.aas.ssw.common.component.Constant;
 import com.aas.ssw.common.component.ScheduleJob;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
-import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -22,7 +21,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 @Component
-public class QuartzUtil implements ApplicationContextAware{
+public class QuartzUtil implements ApplicationContextAware {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QuartzUtil.class);
 
@@ -30,19 +29,18 @@ public class QuartzUtil implements ApplicationContextAware{
     private static Scheduler scheduler;
 
     /**
-     * @Description: 添加一个定时任务
-     *
      * @param job 任务名
+     * @Description: 添加一个定时任务
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static String addJob(ScheduleJob job) {
         try {
-            if(job == null){
+            if (job == null) {
                 LOGGER.warn("job为null！");
                 return Constant.FAIL;
             }
-            if(scheduler.getJobDetail(JobKey.jobKey(job.getJobName(), job.getJobGroup())) != null){
-                LOGGER.warn("不能添加定时任务，因为jobName："+ job.getJobName() + ",jobGroupName:" + job.getJobGroup() +"已经存在");
+            if (scheduler.getJobDetail(JobKey.jobKey(job.getJobName(), job.getJobGroup())) != null) {
+                LOGGER.warn("不能添加定时任务，因为jobName：" + job.getJobName() + ",jobGroupName:" + job.getJobGroup() + "已经存在");
                 return Constant.FAIL;
             }
             MethodInvokingJobDetailFactoryBean methodInvJobDetail = new MethodInvokingJobDetailFactoryBean();
@@ -85,20 +83,19 @@ public class QuartzUtil implements ApplicationContextAware{
             }
             return Constant.SUCCESS;
         } catch (Exception e) {
-            LOGGER.error("添加定时任务异常！",e);
+            LOGGER.error("添加定时任务异常！", e);
             return Constant.ERROR;
         }
     }
 
     /**
-     * @Description: 修改一个任务的触发时间
-     *
      * @param job
+     * @Description: 修改一个任务的触发时间
      */
     public static String modifyJobTime(ScheduleJob job) {
         try {
             JobDetail jobDetail = scheduler.getJobDetail(JobKey.jobKey(job.getJobName(), job.getJobGroup()));
-            if(jobDetail == null){
+            if (jobDetail == null) {
                 LOGGER.warn("不能修改定时任务，因为jobName：" + job.getJobName() + ",jobGroupName:" + job.getJobGroup() + "不存在！");
                 return Constant.FAIL;
             }
@@ -134,20 +131,19 @@ public class QuartzUtil implements ApplicationContextAware{
             }
             return Constant.SUCCESS;
         } catch (Exception e) {
-            LOGGER.error("修改定时任务异常！",e);
+            LOGGER.error("修改定时任务异常！", e);
             return Constant.ERROR;
         }
     }
 
     /**
-     * @Description: 移除一个任务
-     *
      * @param job
+     * @Description: 移除一个任务
      */
     public static String removeJob(ScheduleJob job) {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(job.getTriggerName(), job.getTriggerGroup());
-            if(triggerKey != null){
+            if (triggerKey != null) {
                 // 停止触发器
                 scheduler.pauseTrigger(triggerKey);
                 // 移除触发器
@@ -157,7 +153,7 @@ public class QuartzUtil implements ApplicationContextAware{
             }
             return Constant.SUCCESS;
         } catch (Exception e) {
-            LOGGER.error("删除定时任务异常！",e);
+            LOGGER.error("删除定时任务异常！", e);
             return Constant.ERROR;
         }
     }
@@ -185,11 +181,6 @@ public class QuartzUtil implements ApplicationContextAware{
             throw new RuntimeException(e);
         }
     }
-
-
-
-
-
 
 
     @Resource(name = "scheduler")

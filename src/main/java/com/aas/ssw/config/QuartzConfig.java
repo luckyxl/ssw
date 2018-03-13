@@ -9,7 +9,9 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-/**quartz配置类
+/**
+ * quartz配置类
+ *
  * @author xl
  */
 @Configuration
@@ -17,9 +19,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 public class QuartzConfig {
 
     /**
-     *
      * @param job 需要执行的任务
-     * @return
+     * @return 初始任务
      */
     @Bean(name = "jobDetail")
     public MethodInvokingJobDetailFactoryBean detailFactoryBean(QuartzJob job) {
@@ -46,6 +47,10 @@ public class QuartzConfig {
         return jobDetail;
     }
 
+    /**
+     * @param jobDetail 任务
+     * @return 初始trigger
+     */
     @Bean(name = "jobTrigger")
     public CronTriggerFactoryBean cronJobTrigger(MethodInvokingJobDetailFactoryBean jobDetail) {
         CronTriggerFactoryBean tigger = new CronTriggerFactoryBean();
@@ -58,6 +63,10 @@ public class QuartzConfig {
         return tigger;
     }
 
+    /**
+     * @param cronJobTrigger 初始trigger
+     * @return 初始scheduler
+     */
     @Bean(name = "scheduler")
     public SchedulerFactoryBean schedulerFactory(Trigger cronJobTrigger) {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
@@ -69,8 +78,6 @@ public class QuartzConfig {
         bean.setTriggers(cronJobTrigger);
         return bean;
     }
-
-
 
 
 }

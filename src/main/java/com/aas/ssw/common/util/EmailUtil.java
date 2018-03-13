@@ -32,18 +32,17 @@ public class EmailUtil {
     private static TemplateEngine templateEngine;
 
 
-
     /**
-     * @param to 目的邮箱
-     * @param cc 抄送邮箱
-     * @param subject 标题
+     * @param to              目的邮箱
+     * @param cc              抄送邮箱
+     * @param subject         标题
      * @param attachmentsPath 附件路径
      * @param inlineResources 内嵌图片,key：模板中的id,value:图片路径
-     * @param templatePath 模板文件路径
-     * @param templateParams 模板中的参数
+     * @param templatePath    模板文件路径
+     * @param templateParams  模板中的参数
      * @return 是否发送成功, 1:成功;-1:失败
      */
-    public static String sendEmail(String[] to, String[] cc, String subject, String[] attachmentsPath, Map<String,String> inlineResources, String templatePath, Map<String,String> templateParams){
+    public static String sendEmail(String[] to, String[] cc, String subject, String[] attachmentsPath, Map<String, String> inlineResources, String templatePath, Map<String, String> templateParams) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
             //true表示需要创建一个multipart message
@@ -57,14 +56,14 @@ public class EmailUtil {
             }
 
             //抄送邮箱
-            if(cc != null){
+            if (cc != null) {
                 for (String ccAddress : cc) {
                     helper.addCc(ccAddress);
                 }
             }
 
             //附件
-            if(attachmentsPath != null){
+            if (attachmentsPath != null) {
                 for (String attachmentPath : attachmentsPath) {
                     String attachmentName = attachmentPath.substring(attachmentPath.lastIndexOf("/"));
                     helper.addAttachment(attachmentName, new ClassPathResource(attachmentPath));
@@ -73,16 +72,16 @@ public class EmailUtil {
 
             //模板参数
             Context context = new Context();
-            if(templateParams != null){
+            if (templateParams != null) {
                 for (String templateParamKey : templateParams.keySet()) {
-                    context.setVariable(templateParamKey,templateParams.get(templateParamKey));
+                    context.setVariable(templateParamKey, templateParams.get(templateParamKey));
                 }
             }
             String emailContent = templateEngine.process(templatePath, context);
             helper.setText(emailContent, true);
 
             //内嵌图片
-            if(inlineResources != null){
+            if (inlineResources != null) {
                 for (String inlineResourceId : inlineResources.keySet()) {
                     helper.addInline(inlineResourceId, new ClassPathResource(inlineResources.get(inlineResourceId)));
                 }
@@ -97,10 +96,12 @@ public class EmailUtil {
             return Constant.ERROR;
         }
     }
+
     @Resource
     public void setMailSender(JavaMailSender mailSender) {
         EmailUtil.mailSender = mailSender;
     }
+
     @Resource
     public void setTemplateEngine(TemplateEngine templateEngine) {
         EmailUtil.templateEngine = templateEngine;

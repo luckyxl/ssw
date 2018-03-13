@@ -13,18 +13,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 /**
- *
  * @author xl
  * @date 2017/8/14
  */
 @Configuration
 @ConditionalOnProperty(name = "spring.jta.enabled")
-@MapperScan(basePackages = "com.aas.ssw.business.dao.two" , sqlSessionTemplateRef = "sqlSessionTemplateTwo")
+@MapperScan(basePackages = "com.aas.ssw.business.dao.two", sqlSessionTemplateRef = "sqlSessionTemplateTwo")
 public class MybatisConfigTwo {
 
     @Qualifier("dataSourceTwo")

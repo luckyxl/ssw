@@ -33,6 +33,7 @@ public class FastDFSClientUtil {
 
     /**
      * 上传文件
+     *
      * @param file 文件
      * @return 文件访问路径
      */
@@ -48,6 +49,7 @@ public class FastDFSClientUtil {
 
     /**
      * 删除文件
+     *
      * @param fileUrl 文件访问地址
      * @return
      */
@@ -57,13 +59,14 @@ public class FastDFSClientUtil {
             fastFileStorageClient.deleteFile(storePath.getGroup(), storePath.getPath());
             return Constant.SUCCESS;
         } catch (FdfsUnsupportStorePathException e) {
-            LOGGER.error("FASTDFS删除文件异常！",e);
+            LOGGER.error("FASTDFS删除文件异常！", e);
             return Constant.ERROR;
         }
     }
 
     /**
      * 返回文件完整地址
+     *
      * @param storePath
      * @return
      */

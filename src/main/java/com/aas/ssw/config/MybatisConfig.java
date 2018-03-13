@@ -15,11 +15,9 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
- *
  * @author xl
  * @date 2017/8/14
  */
@@ -50,6 +48,7 @@ public class MybatisConfig {
             throw new RuntimeException("sqlSessionFactory init fail", e);
         }
     }
+
     @ConditionalOnBean(name = "dataSource")
     @Bean(name = "transactionManager")
     public PlatformTransactionManager annotationDrivenTransactionManager() {

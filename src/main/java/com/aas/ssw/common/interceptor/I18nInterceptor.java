@@ -17,6 +17,7 @@ import java.util.Locale;
  * 该拦截器用来获取当前语言环境，
  * 并将语言环境放到controller的参数中，
  * 后台sql就可以根据这个语言环境参数进行过滤
+ *
  * @author xl
  */
 public class I18nInterceptor implements HandlerInterceptor {
@@ -30,7 +31,7 @@ public class I18nInterceptor implements HandlerInterceptor {
                 LocalInjection annotation = method.getAnnotation(LocalInjection.class);
                 Locale locale = RequestContextUtils.getLocaleResolver(httpServletRequest).resolveLocale(httpServletRequest);
                 ParameterRequestWrapper parameterRequestWrapper = new ParameterRequestWrapper(httpServletRequest);
-                parameterRequestWrapper.addParameter(annotation.name(),new String[]{locale.toString()});
+                parameterRequestWrapper.addParameter(annotation.name(), new String[]{locale.toString()});
                 httpServletRequest = parameterRequestWrapper;
             }
         }
@@ -40,7 +41,7 @@ public class I18nInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
         Locale locale = RequestContextUtils.getLocaleResolver(httpServletRequest).resolveLocale(httpServletRequest);
-        Cookie cookie = new Cookie("currentLocal",locale.toString());
+        Cookie cookie = new Cookie("currentLocal", locale.toString());
         cookie.setPath(httpServletRequest.getContextPath());
         httpServletResponse.addCookie(cookie);
     }

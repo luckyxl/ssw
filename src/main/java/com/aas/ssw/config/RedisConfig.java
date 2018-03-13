@@ -1,11 +1,7 @@
 package com.aas.ssw.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -15,17 +11,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * redis配置类
+ *
+ * @author xl
+ */
 @Configuration
 @EnableCaching
 @ConditionalOnProperty(name = "redis.enabled")
-public class RedisConfig extends CachingConfigurerSupport{
-    private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
+public class RedisConfig extends CachingConfigurerSupport {
 
 
     @Value("${spring.redis.host:''}")
@@ -40,6 +38,7 @@ public class RedisConfig extends CachingConfigurerSupport{
 
     /**
      * 缓存管理器
+     *
      * @return CacheManager
      */
     @Override
@@ -55,10 +54,10 @@ public class RedisConfig extends CachingConfigurerSupport{
     }
 
     /**
-     * @description 自定义的缓存key的生成策略</br>
-     *              若想使用这个key</br>
-     *              只需要讲注解上keyGenerator的值设置为customKeyGenerator即可</br>
      * @return 自定义策略生成的key
+     * @description 自定义的缓存key的生成策略 </br>
+     * 若想使用这个key</br>
+     * 只需要将注解上keyGenerator的值设置为customKeyGenerator即可</br>
      */
     @Bean
     public KeyGenerator customKeyGenerator() {

@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * 该类用于包装request
+ *
  * @author xl
  */
 @SuppressWarnings("unchecked")

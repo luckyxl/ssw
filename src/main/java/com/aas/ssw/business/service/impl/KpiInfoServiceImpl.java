@@ -1,14 +1,11 @@
 package com.aas.ssw.business.service.impl;
 
-import com.aas.ssw.business.service.KpiInfoService;
 import com.aas.ssw.business.dao.one.KpiInfoDao;
 import com.aas.ssw.business.entity.KpiInfo;
+import com.aas.ssw.business.service.KpiInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,7 +22,7 @@ import java.util.concurrent.Future;
  */
 @Service("kpiInfoService")
 @ConditionalOnProperty(name = "spring.jta.enabled")
-public class KpiInfoServiceImpl implements KpiInfoService{
+public class KpiInfoServiceImpl implements KpiInfoService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KpiInfoServiceImpl.class);
     @Resource
@@ -35,7 +32,7 @@ public class KpiInfoServiceImpl implements KpiInfoService{
     @Override
     public void insertKpiInfo(KpiInfo kpiInfo) {
         kpiInfoDao.insertSelective(kpiInfo);
-        int i = 3/0;
+        int i = 3 / 0;
     }
 
     @Async
@@ -57,18 +54,20 @@ public class KpiInfoServiceImpl implements KpiInfoService{
         return kpiInfoDao.selectByPrimaryKey(id);
     }
 
-    @Cacheable(value = "kpi",key = "'kpiId:' + #id", unless="#result == null")
+    @Cacheable(value = "kpi", key = "'kpiId:' + #id", unless = "#result == null")
     @Override
     public KpiInfo getById(Integer id) {
         return kpiInfoDao.selectByPrimaryKey(id);
     }
-    @CachePut(value = "kpi",key = "'kpiId:' + #kpiInfo.id")
+
+    @CachePut(value = "kpi", key = "'kpiId:' + #kpiInfo.id")
     @Override
     public KpiInfo updateById(KpiInfo kpiInfo) {
         kpiInfoDao.updateByPrimaryKeySelective(kpiInfo);
         return kpiInfoDao.selectByPrimaryKey(kpiInfo.getId());
     }
-    @CacheEvict(value = "kpi",key = "'kpiId:' + #id")
+
+    @CacheEvict(value = "kpi", key = "'kpiId:' + #id")
     @Override
     public void logicDeleteById(Integer id) {
         KpiInfo kpiInfo = new KpiInfo();
