@@ -2,6 +2,7 @@ package com.aas.ssw.common.interceptor;
 
 import com.aas.ssw.common.annotation.LocalInjection;
 import com.aas.ssw.common.component.ParameterRequestWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,7 +43,11 @@ public class I18nInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
         Locale locale = RequestContextUtils.getLocaleResolver(httpServletRequest).resolveLocale(httpServletRequest);
         Cookie cookie = new Cookie("currentLocal", locale.toString());
-        cookie.setPath(httpServletRequest.getContextPath());
+        String contextPath = httpServletRequest.getContextPath();
+        if(StringUtils.isBlank(contextPath)){
+            contextPath = "/";
+        }
+        cookie.setPath(contextPath);
         httpServletResponse.addCookie(cookie);
     }
 
