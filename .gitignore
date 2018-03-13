@@ -17,6 +17,8 @@ target/
 .mvn/
 mvnw
 mvnw.cmd
+tmlog.lck
+tmlog0.log
 
 ### NetBeans ###
 nbproject/private/
