@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <script th:inline="javascript" th:fragment="contextPath">
-    var contextPath = [[${#httpServletRequest.getContextPath()}]];
+    var contextPath = [[${#httpServletRequest.getContextPath()}]] + '/';
 </script>
 </html>
