@@ -7,6 +7,8 @@
 <body>
 <a th:href="@{/(lang=zh_CN)}">中文</a>
 <a th:href="@{/(lang=en_US)}">英文</a>
+<div th:if="${#locale.toString() == 'zh_CN'}">中文环境</div>
+<div th:if="${#locale.toString() == 'en_US'}">英文环境</div>
 <div th:replace="fragment/contextPath :: contextPath"></div>
 <script src="../static/frame/jQuery/jquery-1.10.1.min.js" th:src="@{/frame/jQuery/jquery-1.10.1.min.js}"></script>
 <div th:replace="fragment/i18nResource :: i18nProperties"></div>
