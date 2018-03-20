@@ -3,6 +3,7 @@ package com.aas.ssw.business.service.impl;
 import com.aas.ssw.business.dao.one.KpiInfoDao;
 import com.aas.ssw.business.entity.KpiInfo;
 import com.aas.ssw.business.service.KpiInfoService;
+import com.aas.ssw.common.component.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Optional;
 import java.util.concurrent.Future;
 
 /**
@@ -75,5 +77,14 @@ public class KpiInfoServiceImpl implements KpiInfoService {
         kpiInfo.setName("redisTest");
         //模拟逻辑删除
         kpiInfoDao.updateByPrimaryKeySelective(kpiInfo);
+    }
+
+    @Override
+    public String updateById2(KpiInfo kpiInfo) {
+        return Optional.ofNullable(kpiInfo)
+                .filter(kpi -> kpi.getId() != null)
+                .map(kpiInfoDao::updateByPrimaryKeySelective)
+                .map(result -> result > 0 ? Constant.SUCCESS : Constant.FAIL)
+                .orElse(Constant.FAIL);
     }
 }

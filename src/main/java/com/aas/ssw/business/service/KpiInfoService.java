@@ -22,4 +22,6 @@ public interface KpiInfoService {
     KpiInfo updateById(KpiInfo kpiInfo);
 
     void logicDeleteById(Integer id);
+
+    String updateById2(KpiInfo kpiInfo);
 }
