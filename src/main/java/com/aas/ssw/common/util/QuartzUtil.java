@@ -58,7 +58,7 @@ public class QuartzUtil implements ApplicationContextAware {
             // 将管理Job类提交到计划管理类
             methodInvJobDetail.afterPropertiesSet();
             // 并发设置
-            methodInvJobDetail.setConcurrent(job.getConcurrent().equals("1") ? true : false);
+            methodInvJobDetail.setConcurrent(job.isConcurrent());
             // 动态
             JobDetail jobDetail = methodInvJobDetail.getObject();
 //            jobDetail.getJobDataMap().put("scheduleJob", job);

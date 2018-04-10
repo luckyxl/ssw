@@ -48,9 +48,9 @@ public class ScheduleJob implements Serializable {
      */
     private String clazz;
     /**
-     * 是否并发 0禁用 1启用
+     * 是否并发 false禁用 true启用
      */
-    private String concurrent;
+    private boolean concurrent;
     /**
      * triggerName
      */

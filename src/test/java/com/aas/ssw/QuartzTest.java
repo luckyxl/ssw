@@ -25,7 +25,7 @@ public class QuartzTest {
         job.setIsSpringBean("1");
         job.setTargetObject("quartzJob");
         job.setTargetMethod("sayHi");
-        job.setConcurrent("0");
+        job.setConcurrent(false);
         QuartzUtil.addJob(job);
         Thread.sleep(20 * 1000);
     }
@@ -41,7 +41,7 @@ public class QuartzTest {
         job.setIsSpringBean("1");
         job.setTargetObject("quartzJob");
         job.setTargetMethod("sayHi");
-        job.setConcurrent("0");
+        job.setConcurrent(false);
         QuartzUtil.addJob(job);
         Thread.sleep(20 * 1000);
         job.setCronExpression("*/1 * * * * ?");
@@ -60,7 +60,7 @@ public class QuartzTest {
         job.setIsSpringBean("1");
         job.setTargetObject("quartzJob");
         job.setTargetMethod("sayHi");
-        job.setConcurrent("0");
+        job.setConcurrent(false);
         QuartzUtil.addJob(job);
         Thread.sleep(20 * 1000);
         QuartzUtil.removeJob(job);
