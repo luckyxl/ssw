@@ -1,10 +1,10 @@
-package com.aas.ssw.business.service.impl;
+package com.aas.ssw.business.example.service.impl;
 
-import com.aas.ssw.business.dao.one.KpiInfoDao;
-import com.aas.ssw.business.dao.two.AekoTulDao;
-import com.aas.ssw.business.entity.AekoTul;
-import com.aas.ssw.business.entity.KpiInfo;
-import com.aas.ssw.business.service.AtomikosService;
+import com.aas.ssw.business.example.dao.one.KpiInfoDao;
+import com.aas.ssw.business.example.dao.two.AekoTulDao;
+import com.aas.ssw.business.example.entity.AekoTul;
+import com.aas.ssw.business.example.entity.KpiInfo;
+import com.aas.ssw.business.example.service.AtomikosService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

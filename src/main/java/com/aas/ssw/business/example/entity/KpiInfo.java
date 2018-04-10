@@ -1,4 +1,4 @@
-package com.aas.ssw.business.entity;
+package com.aas.ssw.business.example.entity;
 
 import java.io.Serializable;
 

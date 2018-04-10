@@ -1,4 +1,4 @@
-package com.aas.ssw.business.entity;
+package com.aas.ssw.business.example;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package com.aas.ssw;
 
-import com.aas.ssw.business.entity.KpiInfo;
-import com.aas.ssw.business.service.KpiInfoService;
+import com.aas.ssw.business.example.entity.KpiInfo;
+import com.aas.ssw.business.example.service.KpiInfoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

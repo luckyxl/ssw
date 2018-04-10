@@ -1,7 +1,7 @@
-package com.aas.ssw.business.dao.two;
+package com.aas.ssw.business.example.dao.two;
 
-import com.aas.ssw.business.entity.AekoTul;
-import com.aas.ssw.business.entity.AekoTulKey;
+import com.aas.ssw.business.example.entity.AekoTul;
+import com.aas.ssw.business.example.entity.AekoTulKey;
 
 public interface AekoTulDao {
     /**

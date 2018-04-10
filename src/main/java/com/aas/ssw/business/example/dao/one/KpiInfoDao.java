@@ -1,6 +1,6 @@
-package com.aas.ssw.business.dao.one;
+package com.aas.ssw.business.example.dao.one;
 
-import com.aas.ssw.business.entity.KpiInfo;
+import com.aas.ssw.business.example.entity.KpiInfo;
 
 /**
  * @author xl

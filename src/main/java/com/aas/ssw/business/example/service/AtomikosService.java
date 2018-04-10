@@ -1,4 +1,4 @@
-package com.aas.ssw.business.service;
+package com.aas.ssw.business.example.service;
 
 public interface AtomikosService {
 

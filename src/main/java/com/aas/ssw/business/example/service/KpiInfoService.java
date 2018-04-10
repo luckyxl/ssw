@@ -1,6 +1,6 @@
-package com.aas.ssw.business.service;
+package com.aas.ssw.business.example.service;
 
-import com.aas.ssw.business.entity.KpiInfo;
+import com.aas.ssw.business.example.entity.KpiInfo;
 
 import java.util.concurrent.Future;
 
