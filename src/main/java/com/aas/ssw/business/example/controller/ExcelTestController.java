@@ -4,6 +4,7 @@ import com.aas.ssw.common.component.Person;
 import com.aas.ssw.common.util.ExcelUtil;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
@@ -41,5 +42,9 @@ public class ExcelTestController {
         //也可以使用MultipartFile,使用 FileUtil.importExcel(MultipartFile file, Integer titleRows, Integer headerRows, Class<T> pojoClass)导入
         System.out.println("导入数据一共【" + personList.size() + "】行");
 
+    }
+    @GetMapping("/test")
+    public String test(){
+        throw new NullPointerException();
     }
 }
