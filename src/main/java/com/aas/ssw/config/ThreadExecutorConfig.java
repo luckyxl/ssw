@@ -27,7 +27,7 @@ public class ThreadExecutorConfig {
     /**
      * 缓存队列
      */
-    private int queueCapacity = 8;
+    private int queueCapacity = 30;
     /**
      * 允许的空闲时间
      */
