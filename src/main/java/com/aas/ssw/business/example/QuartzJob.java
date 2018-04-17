@@ -22,7 +22,7 @@ public class QuartzJob {
         LOGGER.info("hi world!");
     }
 
-    @Scheduled(cron = "*/3 * * * * ?")
+//    @Scheduled(cron = "*/3 * * * * ?")
     public void sayNiHao() {
         LOGGER.info("world, nihao");
     }
