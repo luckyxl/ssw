@@ -6,7 +6,7 @@ import com.aas.ssw.business.example.service.KpiInfoService;
 import com.aas.ssw.common.component.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,7 +23,7 @@ import java.util.concurrent.Future;
  * @author xl
  */
 @Service("kpiInfoService")
-@ConditionalOnProperty(name = "spring.jta.enabled")
+@ConditionalOnExpression("!'${spring.jta.enabled}'")
 public class KpiInfoServiceImpl implements KpiInfoService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KpiInfoServiceImpl.class);

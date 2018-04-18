@@ -1,23 +1,24 @@
 package com.aas.ssw.common.security;
 
 import com.aas.ssw.business.example.dao.ResourceDao;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service
+@Component("filterInvocationSecurityMetadataSource")
+@ConditionalOnProperty(name = "security.enabled")
 public class InvocationSecurityMetadataSourceService implements FilterInvocationSecurityMetadataSource {
     @Resource
     private ResourceDao resourceDao;
@@ -30,14 +31,19 @@ public class InvocationSecurityMetadataSourceService implements FilterInvocation
     private void loadAllResource() {
         List<com.aas.ssw.business.example.entity.Resource> resourceList = resourceDao.findAll();
         for (com.aas.ssw.business.example.entity.Resource resource : resourceList) {
-            List<ConfigAttribute> array = new ArrayList<>();
-            ConfigAttribute cfg = new SecurityConfig(resource.getName());
             //此处只添加了资源的名字，其实还可以添加更多的信息，
             //例如请求方法到ConfigAttribute的集合中去。
             //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数。
-            array.add(cfg);
-            //用资源的getUrl() 作为map的key，用ConfigAttribute的集合作为 value，
-            map.put(resource.getUrl(), array);
+            ConfigAttribute securityConfig = new SecurityConfig(resource.getName());
+            List<ConfigAttribute> configAttributeList = map.get(resource.getUrl());
+            if(configAttributeList == null || configAttributeList.size() == 0){
+                configAttributeList = new ArrayList<>();
+                configAttributeList.add(securityConfig);
+                //用资源的getUrl() 作为map的key，用ConfigAttribute的集合作为 value，
+                map.put(resource.getUrl(), configAttributeList);
+            }else {
+                configAttributeList.add(securityConfig);
+            }
         }
     }
 
@@ -53,11 +59,10 @@ public class InvocationSecurityMetadataSourceService implements FilterInvocation
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         //object 中包含用户请求的request 信息
         HttpServletRequest request = ((FilterInvocation) o).getHttpRequest();
-        for(Iterator<String> iter = map.keySet().iterator(); iter.hasNext(); ) {
-            String resUrl = iter.next();
-            AntPathRequestMatcher matcher = new AntPathRequestMatcher(resUrl);
+        for (String resourceUrl : map.keySet()) {
+            AntPathRequestMatcher matcher = new AntPathRequestMatcher(resourceUrl);
             if(matcher.matches(request)) {
-                return map.get(resUrl);
+                return map.get(resourceUrl);
             }
         }
         return null;
