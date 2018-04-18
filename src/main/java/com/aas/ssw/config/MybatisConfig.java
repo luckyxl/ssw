@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @ConditionalOnExpression("!'${spring.jta.enabled}'")
-@MapperScan("com.aas.ssw.business.dao")
+@MapperScan("com.aas.ssw.business.**.dao")
 public class MybatisConfig {
 
     @Qualifier("dataSource")
