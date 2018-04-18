@@ -53,4 +53,6 @@ public interface UserDao {
 
 
     User findByLoginName(String loginName);
+
+
 }
