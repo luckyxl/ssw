@@ -58,4 +58,6 @@ public interface ResourceDao {
     List<Resource> findByResourceIdList(@Param("resourceIdList") List<Integer> ResourceIdList);
 
     List<Resource> findAll();
+
+    List<Resource> findByUserId(Integer userId);
 }

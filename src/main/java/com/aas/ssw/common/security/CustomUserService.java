@@ -21,12 +21,6 @@ public class CustomUserService implements UserDetailsService {
     @Resource
     private UserDao userDao;
     @Resource
-    private UserGroupDao userGroupDao;
-    @Resource
-    private GroupRoleDao groupRoleDao;
-    @Resource
-    private RoleResourceDao roleResourceDao;
-    @Resource
     private ResourceDao resourceDao;
 
     @Override
@@ -36,19 +30,7 @@ public class CustomUserService implements UserDetailsService {
             throw new UsernameNotFoundException("用户: " + loginName + " 不存在!");
         }
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        List<Integer> groupIdList = userGroupDao.findGroupIdListByUserId(user.getId());
-        if(groupIdList == null || groupIdList.size() == 0){
-            return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), grantedAuthorities);
-        }
-        List<Integer> roleIdList = groupRoleDao.findRoleIdListByGroupIdList(groupIdList);
-        if(roleIdList == null || roleIdList.size() == 0){
-            return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), grantedAuthorities);
-        }
-        List<Integer> resourceIdList = roleResourceDao.findResourceIdListByRoleIdList(roleIdList);
-        if(resourceIdList == null || resourceIdList.size() == 0){
-            return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), grantedAuthorities);
-        }
-        List<com.aas.ssw.business.example.entity.Resource> resourceList = resourceDao.findByResourceIdList(resourceIdList);
+        List<com.aas.ssw.business.example.entity.Resource> resourceList = resourceDao.findByUserId(user.getId());
         if(resourceList == null || resourceList.size() == 0){
             return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), grantedAuthorities);
         }

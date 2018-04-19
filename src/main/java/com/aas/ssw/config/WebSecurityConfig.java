@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,7 @@ import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ConditionalOnProperty(name = "security.enabled")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -43,20 +46,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 return encodedPassword.equals(MD5Util.encode((String) password));
             }
         });
-        System.out.println("haha");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().authenticated() //任何请求,登录后可以访问
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login?error")
-                .permitAll() //登录页面用户任意访问
-                .and()
-                .logout().permitAll(); //注销行为任意访问
+        http
+            .csrf().disable() //关闭默认的跨域保护
+            .authorizeRequests()
+            //放开静态资源
+            .antMatchers("/frame/**","/i18n/**","/images/**","/css/**","/js/**").permitAll()
+            .anyRequest().authenticated() //任何请求,登录后可以访问
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .defaultSuccessUrl("/")
+            .failureUrl("/login?error")
+            .permitAll() //登录页面用户任意访问
+            .and()
+            .logout()
+            .logoutSuccessUrl("/login")
+            .permitAll(); //注销行为任意访问
         http.addFilterBefore(filterSecurityInterceptor, org.springframework.security.web.access.intercept.FilterSecurityInterceptor.class);
     }
+
 }

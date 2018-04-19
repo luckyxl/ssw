@@ -184,5 +184,6 @@
     <include refid="Base_Column_List" />
     from user
     where loginName = #{loginName,jdbcType=VARCHAR}
+    and status = '0'
   </select>
 </mapper>
