@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title th:text="#{hello}">Title</title>
@@ -8,6 +8,8 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" class="btn btn-primary" value="注销"/>
 </form>
+<div sec:authentication="name"></div>
+<div sec:authorize="hasAuthority('admin')">管理员才能看见</div>
 <a th:href="@{/(lang=zh_CN)}">中文</a>
 <a th:href="@{/(lang=en_US)}">英文</a>
 <a onclick="test()">test</a>
