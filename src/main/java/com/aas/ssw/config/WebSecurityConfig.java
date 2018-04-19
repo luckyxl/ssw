@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //注册UserDetailsService 的bean
         return new CustomUserService();
     }
-//.accessDecisionManager(new SswAccessDecisionManager())
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //user Details Service验证,密码md5加密
@@ -52,21 +52,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable() //关闭默认的跨域保护
-            .authorizeRequests()
-            //放开静态资源
-            .antMatchers("/frame/**","/i18n/**","/images/**","/css/**","/js/**").permitAll()
-            .anyRequest().authenticated() //任何请求,登录后可以访问
-            .and()
-            .formLogin()
-            .loginPage("/login")
-            .defaultSuccessUrl("/")
-            .failureUrl("/login?error")
-            .permitAll() //登录页面用户任意访问
-            .and()
-            .logout()
-            .logoutSuccessUrl("/login")
-            .permitAll(); //注销行为任意访问
+                .csrf().disable() //关闭默认的跨域保护
+                .authorizeRequests()
+                //放开静态资源
+                .antMatchers("/frame/**", "/i18n/**", "/images/**", "/css/**", "/js/**").permitAll()
+                .anyRequest().authenticated() //任何请求,登录后可以访问
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error")
+                .permitAll() //登录页面用户任意访问
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login")
+                .permitAll(); //注销行为任意访问
         http.exceptionHandling().accessDeniedHandler(new SswAccessDeniedHandler());
         http.addFilterBefore(filterSecurityInterceptor, org.springframework.security.web.access.intercept.FilterSecurityInterceptor.class);
     }
