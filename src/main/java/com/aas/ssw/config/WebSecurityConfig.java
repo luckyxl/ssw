@@ -2,6 +2,8 @@ package com.aas.ssw.config;
 
 import com.aas.ssw.common.security.CustomUserService;
 import com.aas.ssw.common.security.FilterSecurityInterceptor;
+import com.aas.ssw.common.security.SswAccessDecisionManager;
+import com.aas.ssw.common.security.SswAccessDeniedHandler;
 import com.aas.ssw.common.util.MD5Util;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //注册UserDetailsService 的bean
         return new CustomUserService();
     }
-
+//.accessDecisionManager(new SswAccessDecisionManager())
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //user Details Service验证,密码md5加密
@@ -66,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
             .logoutSuccessUrl("/login")
             .permitAll(); //注销行为任意访问
+        http.exceptionHandling().accessDeniedHandler(new SswAccessDeniedHandler());
         http.addFilterBefore(filterSecurityInterceptor, org.springframework.security.web.access.intercept.FilterSecurityInterceptor.class);
     }
 
