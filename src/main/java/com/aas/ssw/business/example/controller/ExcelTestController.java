@@ -3,11 +3,9 @@ package com.aas.ssw.business.example.controller;
 import com.aas.ssw.common.component.Person;
 import com.aas.ssw.common.util.ExcelUtil;
 import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class ExcelTestController {
         //导出操作
         ExcelUtil.exportExcel(personList, "花名册", "草帽一伙", Person.class, "海贼王.xls", response);
     }
-    @PreAuthorize("hasAuthority('admin')")
+
     @RequestMapping("/importExcel")
     public void importExcel() {
         String filePath = "C:\\Users\\Administrator\\Downloads\\海贼王.xls";
