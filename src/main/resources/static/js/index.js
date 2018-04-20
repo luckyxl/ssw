@@ -5,7 +5,7 @@ $(function () {
 
 function test() {
     $.ajax({
-        url:contextPath + 'excelTest/importExcel',
+        url:contextPath + 'test3',
         method:'get',
         success:function(data){
 
