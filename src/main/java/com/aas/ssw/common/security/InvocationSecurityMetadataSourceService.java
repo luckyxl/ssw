@@ -23,15 +23,14 @@ import java.util.stream.Collectors;
 public class InvocationSecurityMetadataSourceService implements FilterInvocationSecurityMetadataSource {
     @Resource
     private ResourceDao resourceDao;
-    private Map<String, List<ConfigAttribute>> map = new HashMap<>();
+    private Map<String, List<ConfigAttribute>> map;
 
     /**
      * 加载资源表中所有资源
      */
     @PostConstruct
     private void loadAllResource() {
-        List<com.aas.ssw.business.example.entity.Resource> resourceList = resourceDao.findAll();
-        map = resourceList.stream().collect(Collectors.groupingBy(com.aas.ssw.business.example.entity.Resource::getUrl, Collectors.mapping(res -> {
+        map = resourceDao.findAll().stream().collect(Collectors.groupingBy(com.aas.ssw.business.example.entity.Resource::getUrl, Collectors.mapping(res -> {
             ConfigAttribute securityConfig = new SecurityConfig(res.getName());
             return securityConfig;
         }, Collectors.toList())));
