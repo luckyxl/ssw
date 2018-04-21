@@ -13,10 +13,12 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
 
 @Component("filterInvocationSecurityMetadataSource")
 @ConditionalOnProperty(name = "security.enabled")
@@ -30,10 +32,10 @@ public class InvocationSecurityMetadataSourceService implements FilterInvocation
      */
     @PostConstruct
     private void loadAllResource() {
-        map = resourceDao.findAll().stream().collect(Collectors.groupingBy(com.aas.ssw.business.example.entity.Resource::getUrl, Collectors.mapping(res -> {
+        map = resourceDao.findAll().stream().collect(groupingBy(com.aas.ssw.business.example.entity.Resource::getUrl, mapping(res -> {
             ConfigAttribute securityConfig = new SecurityConfig(res.getName());
             return securityConfig;
-        }, Collectors.toList())));
+        }, toList())));
         /*for (com.aas.ssw.business.example.entity.Resource resource : resourceList) {
             //此处只添加了资源的名字，其实还可以添加更多的信息，
             //例如请求方法到ConfigAttribute的集合中去。
