@@ -12,17 +12,18 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component("filterInvocationSecurityMetadataSource")
 @ConditionalOnProperty(name = "security.enabled")
 public class InvocationSecurityMetadataSourceService implements FilterInvocationSecurityMetadataSource {
     @Resource
     private ResourceDao resourceDao;
-    private ConcurrentHashMap<String, List<ConfigAttribute>> map = new ConcurrentHashMap<>();
+    private Map<String, List<ConfigAttribute>> map = new HashMap<>();
 
     /**
      * 加载资源表中所有资源
@@ -30,7 +31,11 @@ public class InvocationSecurityMetadataSourceService implements FilterInvocation
     @PostConstruct
     private void loadAllResource() {
         List<com.aas.ssw.business.example.entity.Resource> resourceList = resourceDao.findAll();
-        for (com.aas.ssw.business.example.entity.Resource resource : resourceList) {
+        map = resourceList.stream().collect(Collectors.groupingBy(com.aas.ssw.business.example.entity.Resource::getUrl, Collectors.mapping(res -> {
+            ConfigAttribute securityConfig = new SecurityConfig(res.getName());
+            return securityConfig;
+        }, Collectors.toList())));
+        /*for (com.aas.ssw.business.example.entity.Resource resource : resourceList) {
             //此处只添加了资源的名字，其实还可以添加更多的信息，
             //例如请求方法到ConfigAttribute的集合中去。
             //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数。
@@ -44,13 +49,14 @@ public class InvocationSecurityMetadataSourceService implements FilterInvocation
             }else {
                 configAttributeList.add(securityConfig);
             }
-        }
+        }*/
     }
 
     /**
      * 此方法是为了判定用户请求的url是否在资源表中，
      * 如果在资源表中，则返回给 decide 方法，用来判定用户是否有此权限。
      * 如果不在权限表中则放行。
+     *
      * @param o
      * @return
      * @throws IllegalArgumentException
@@ -61,7 +67,7 @@ public class InvocationSecurityMetadataSourceService implements FilterInvocation
         HttpServletRequest request = ((FilterInvocation) o).getHttpRequest();
         for (String resourceUrl : map.keySet()) {
             AntPathRequestMatcher matcher = new AntPathRequestMatcher(resourceUrl);
-            if(matcher.matches(request)) {
+            if (matcher.matches(request)) {
                 return map.get(resourceUrl);
             }
         }
