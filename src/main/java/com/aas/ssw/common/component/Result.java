@@ -41,6 +41,19 @@ public class Result<T> implements Serializable {
         result.setTotal(total);
         return result;
     }
+    public static <T> Result getResult(String flag, String msg, T data) {
+        Result result = new Result();
+        result.setFlag(flag);
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
+    public static Result getResult(String flag, String msg) {
+        Result result = new Result();
+        result.setFlag(flag);
+        result.setMsg(msg);
+        return result;
+    }
 
 
 }
