@@ -36,12 +36,18 @@ public class ElasticSearchTest {
     @Test
     public void updateTest() {
         User user = new User();
-        user.setRealName("王五");
+        user.setRealName("王五2号");
         user.setLoginName("wangwu");
         user.setAge(19);
         user.setGender(true);
         user.setStatus(0);
-        Result result = ElasticUtil.updateById(user, "user", "user","123");
+        Result result = ElasticUtil.updateById(user, "user", "user","AWLxcPgxbdesqcfPx6TL");
+        System.out.println(result.getFlag());
+        System.out.println(result.getMsg());
+    }
+    @Test
+    public void deleteTest() {
+        Result result = ElasticUtil.deleteById("user", "user","AWLxcPgxbdesqcfPx6TL");
         System.out.println(result.getFlag());
         System.out.println(result.getMsg());
     }
@@ -50,7 +56,7 @@ public class ElasticSearchTest {
         Class clazz = User.class;
         String index = "user";
         String type = "user";
-        String keyword = "张";
+        String keyword = "王";
         int from = 0;
         int size = 10;
         List<String> highLightsFields = Arrays.asList(new String[]{"realName","loginName"});

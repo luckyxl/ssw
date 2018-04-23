@@ -11,6 +11,7 @@ import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 import io.searchbox.core.Update;
+import io.searchbox.params.SearchType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -177,7 +178,9 @@ public class ElasticUtil {
                     .addType(type)
                     .setParameter("from", from)
                     .setParameter("size", size)
+//                    .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)  //设置查询类型：1.SearchType.DFS_QUERY_THEN_FETCH 精确查询； 2.SearchType.SCAN 扫描查询,无序
                     .build();
+
             SearchResult searchResult = jestClient.execute(search);
             List<JSONObject> data = searchResult.getHits(clazz).stream().map(hit -> {
                 JSONObject json = (JSONObject) JSONObject.toJSON(hit.source);
