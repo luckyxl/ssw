@@ -204,6 +204,9 @@ public class ElasticUtil {
 //            .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)  //设置查询类型：1.SearchType.DFS_QUERY_THEN_FETCH 精确查询； 2.SearchType.SCAN 扫描查询,无序
             Search search = searchBuilder.build();
             SearchResult searchResult = jestClient.execute(search);
+            if(!searchResult.isSucceeded()){
+                return Result.getResult(Constant.FAIL,searchResult.getErrorMessage());
+            }
             List<JSONObject> data = searchResult.getHits(clazz).stream().map(hit -> {
                 JSONObject json = (JSONObject) JSONObject.toJSON(hit.source);
                 json.put("esId", hit.id);
