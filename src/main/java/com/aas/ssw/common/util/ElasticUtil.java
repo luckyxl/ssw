@@ -183,8 +183,10 @@ public class ElasticUtil {
                 elasticSearchBean.getHighLightsFields().stream().forEach(field -> highlightBuilder.field(field));
 //                HighlightBuilder highlightBuilder = new HighlightBuilder().field("*").requireFieldMatch(false);
                 highlightBuilder.requireFieldMatch(false);
-                highlightBuilder.preTags("<em>").postTags("</em>");//高亮标签
-                highlightBuilder.fragmentSize(200);//高亮内容长度
+                //高亮标签
+                highlightBuilder.preTags("<em>").postTags("</em>");
+                //高亮内容长度
+                highlightBuilder.fragmentSize(200);
                 searchSourceBuilder.highlighter(highlightBuilder);
             }
             Search.Builder searchBuilder = new Search.Builder(
