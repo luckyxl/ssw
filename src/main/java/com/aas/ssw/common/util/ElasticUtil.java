@@ -1,6 +1,7 @@
 package com.aas.ssw.common.util;
 
 import com.aas.ssw.common.component.Constant;
+import com.aas.ssw.common.component.ElasticSearchBean;
 import com.aas.ssw.common.component.Result;
 import com.alibaba.fastjson.JSONObject;
 import io.searchbox.client.JestClient;
@@ -15,7 +16,10 @@ import io.searchbox.params.SearchType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.query.AbstractQueryBuilder;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -152,35 +156,53 @@ public class ElasticUtil {
      * 分页查询
      *
      * @param clazz 数据类型
-     * @param index 索引
-     * @param type 类型
-     * @param keyword 关键字
-     * @param from 起始页
-     * @param size 长度
-     * @param highLightsFields 高亮字段
+     * @param elasticSearchBean 查询对象
      * @param <T>
      * @return 查询结果
      */
-    public static <T> Result get(Class<T> clazz, String index, String type, String keyword, int from, int size, List<String> highLightsFields) {
+    public static <T> Result get(Class<T> clazz, ElasticSearchBean elasticSearchBean) {
         try {
+            /**
+             * 使用QueryBuilder
+             * termQuery("key", obj) 完全匹配
+             * termsQuery("key", obj1, obj2..)   一次匹配多个值
+             * matchQuery("key", Obj) 单个匹配, field不支持通配符, 前缀具高级特性
+             * multiMatchQuery("text", "field1", "field2"..);  匹配多个字段, field有通配符忒行
+             * matchAllQuery();         匹配所有文件
+             */
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-            searchSourceBuilder.query(QueryBuilders.queryStringQuery(keyword));//全文匹配
-            HighlightBuilder highlightBuilder = new HighlightBuilder();
-            highLightsFields.stream().forEach(field -> highlightBuilder.field(field));
-//            HighlightBuilder highlightBuilder = new HighlightBuilder().field("*").requireFieldMatch(false);
-            highlightBuilder.requireFieldMatch(false);
-            highlightBuilder.preTags("<em>").postTags("</em>");//高亮标签
-            highlightBuilder.fragmentSize(200);//高亮内容长度
-            searchSourceBuilder.highlighter(highlightBuilder);
-            Search search = new Search.Builder(
+            AbstractQueryBuilder queryStringQueryBuilder = null;
+            if(elasticSearchBean.isFullTextMatching()){
+                queryStringQueryBuilder = QueryBuilders.queryStringQuery(elasticSearchBean.getKeyword());
+            }else {
+                queryStringQueryBuilder = QueryBuilders.multiMatchQuery(elasticSearchBean.getKeyword(), (String[]) elasticSearchBean.getMatchingFields().toArray());
+            }
+            searchSourceBuilder.query(queryStringQueryBuilder);
+            if(null != elasticSearchBean.getHighLightsFields()){
+                HighlightBuilder highlightBuilder = new HighlightBuilder();
+                elasticSearchBean.getHighLightsFields().stream().forEach(field -> highlightBuilder.field(field));
+//                HighlightBuilder highlightBuilder = new HighlightBuilder().field("*").requireFieldMatch(false);
+                highlightBuilder.requireFieldMatch(false);
+                highlightBuilder.preTags("<em>").postTags("</em>");//高亮标签
+                highlightBuilder.fragmentSize(200);//高亮内容长度
+                searchSourceBuilder.highlighter(highlightBuilder);
+            }
+            Search.Builder searchBuilder = new Search.Builder(
                     searchSourceBuilder.toString())
-                    .addIndex(index)
-                    .addType(type)
-                    .setParameter("from", from)
-                    .setParameter("size", size)
-//                    .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)  //设置查询类型：1.SearchType.DFS_QUERY_THEN_FETCH 精确查询； 2.SearchType.SCAN 扫描查询,无序
-                    .build();
+                    .addIndex(elasticSearchBean.getIndex())
+                    .addType(elasticSearchBean.getType());
+            if(null != elasticSearchBean.getFrom()){
+                searchBuilder.setParameter("from", elasticSearchBean.getFrom());
+            }
+            if(null != elasticSearchBean.getSize()){
+                searchBuilder.setParameter("size", elasticSearchBean.getSize());
+            }
 
+            if(null != elasticSearchBean.getSortFields() && elasticSearchBean.getSortFields().size() > 0){
+                searchBuilder.addSort(elasticSearchBean.getSortFields());
+            }
+//            .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)  //设置查询类型：1.SearchType.DFS_QUERY_THEN_FETCH 精确查询； 2.SearchType.SCAN 扫描查询,无序
+            Search search = searchBuilder.build();
             SearchResult searchResult = jestClient.execute(search);
             List<JSONObject> data = searchResult.getHits(clazz).stream().map(hit -> {
                 JSONObject json = (JSONObject) JSONObject.toJSON(hit.source);

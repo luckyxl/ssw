@@ -1,8 +1,10 @@
 package com.aas.ssw;
 
 import com.aas.ssw.business.example.entity.User;
+import com.aas.ssw.common.component.ElasticSearchBean;
 import com.aas.ssw.common.component.Result;
 import com.aas.ssw.common.util.ElasticUtil;
+import io.searchbox.core.search.sort.Sort;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,7 +63,20 @@ public class ElasticSearchTest {
         int from = 0;
         int size = 10;
         List<String> highLightsFields = Arrays.asList(new String[]{"realName","loginName"});
-        Result result = ElasticUtil.get(clazz, index, type, keyword, from, size, highLightsFields);
+        List<Sort> sortFields = Arrays.asList(new Sort[]{new Sort("realName",Sort.Sorting.DESC),new Sort("loginName",Sort.Sorting.ASC)});
+        List<String> matchingFields = Arrays.asList(new String[]{"password","email"});
+        ElasticSearchBean elasticSearchBean = new ElasticSearchBean();
+        elasticSearchBean.setIndex(index);
+        elasticSearchBean.setType(type);
+        elasticSearchBean.setKeyword(keyword);
+        elasticSearchBean.setFrom(from);
+        elasticSearchBean.setSize(size);
+        elasticSearchBean.setHighLightsFields(highLightsFields);
+        elasticSearchBean.setFullTextMatching(true);
+        elasticSearchBean.setSortFields(sortFields);
+        elasticSearchBean.setMatchingFields(matchingFields);
+
+        Result result = ElasticUtil.get(clazz, elasticSearchBean);
         System.out.println(result.getFlag());
         System.out.println(result.getMsg());
         System.out.println(result.getTotal());
