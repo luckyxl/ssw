@@ -93,7 +93,12 @@
             <artifactId>jna</artifactId>
         </dependency>
         <!--elasticsearch-->
-
+        <!--rabbitmq-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <!--rabbitmq-->
         <!--配合spring.thymeleaf.mode使用-->
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
